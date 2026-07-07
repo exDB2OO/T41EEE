@@ -296,6 +296,18 @@ enum class MenuSelect { MENU_OPTION_SELECT,
                         BEARING,
                         BOGUS_PIN_READ,
                         DEFAULT };
+
+// Menu functions struct.  This sets the current menu level.
+// This was adapted from T41EVE.
+struct menuControl
+{
+  bool top{false};
+  bool CWOptions{false};
+  bool subMenuSelect{false};
+  bool runOptionFunction{false};
+  bool runButtonFunction{false};
+};
+extern menuControl menucontrol;
 /*
 struct maps {
   char mapNames[50];

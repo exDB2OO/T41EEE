@@ -156,6 +156,7 @@ float32_t DMAMEM float_buffer_RTemp[2048];
 //======================================== Global structure declarations ===============================================
 config_t ConfigData;
 calibration_t CalData;
+menuControl menucontrol;
 
 Bands bands = { { // Revised band struct with mode and sideband.  Greg KF5N February 14, 2025
 //                  band low   band hi   name          mode                  sideband         FHiCut FLoCut FAMCut  Gain  type gain  AGC
@@ -1133,7 +1134,17 @@ void loop() {
   // SSB and FT8 transmit operate via the main loop().  CW modes operate within independent while loops.  Don't stop in SSB and FT8 modes to read the buttons.
   if ((radioState != RadioState::SSB_TRANSMIT_STATE) and (radioState != RadioState::FT8_TRANSMIT_STATE) and (calibrateFlag == false) and (morseDecodeAdjustFlag == false)) {
     menu = readButton();
-    if (menu != MenuSelect::BOGUS_PIN_READ) button.ExecuteButtonPress(menu);
+      // Restrict allowed button selections if in top menu.
+      if (menucontrol.top == true)
+      {
+        if ((menu != MenuSelect::BOGUS_PIN_READ) and (menu == MenuSelect::MAIN_MENU_UP or menu == MenuSelect::MAIN_MENU_DN or menu == MenuSelect::MENU_OPTION_SELECT))
+          button.ExecuteButtonPress(menu);
+      }
+      else
+      {
+        if (menu != MenuSelect::BOGUS_PIN_READ)
+          button.ExecuteButtonPress(menu);
+      }
   }
 
   // Transition to new state if required and only if the radio state has changed.

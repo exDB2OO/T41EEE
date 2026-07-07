@@ -216,7 +216,7 @@ void Button::ExecuteButtonPress(MenuSelect val) {
 
   switch (val) {
     case MenuSelect::MENU_OPTION_SELECT:  // 1
-
+      menucontrol.top = false;
       ShowMenu(&topMenus[mainMenuIndex], PRIMARY_MENU);
       functionPtr[mainMenuIndex]();  // These are processed in MenuProcessing.cpp
       break;
@@ -224,7 +224,7 @@ void Button::ExecuteButtonPress(MenuSelect val) {
     case MenuSelect::MAIN_MENU_UP:  // 2
       ButtonMenuIncrease();
       ShowMenu(&topMenus[mainMenuIndex], PRIMARY_MENU);
-
+      menucontrol.top = true;
       break;
 
     case MenuSelect::BAND_UP:  // 3
@@ -238,6 +238,7 @@ void Button::ExecuteButtonPress(MenuSelect val) {
     case MenuSelect::MAIN_MENU_DN:  // 5
       ButtonMenuDecrease();
       ShowMenu(&topMenus[mainMenuIndex], PRIMARY_MENU);
+      menucontrol.top = true;
       break;
 
     case MenuSelect::BAND_DN:  // 6
